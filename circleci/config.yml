@@ -1,0 +1,21 @@
+version: 2.1
+
+executors:
+  node-executor:
+    docker:
+      - image: cimg/node:20.3.0
+    working_directory: ~/casabeci
+
+jobs:
+  deploy:
+    executor: node-executor
+    steps:
+      - checkout
+      - run: npm install
+      - run: npx hardhat compile
+      - run: npm run deploy
+
+workflows:
+  deploy_workflow:
+    jobs:
+      - deploy
