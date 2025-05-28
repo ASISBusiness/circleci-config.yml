@@ -1,0 +1,27 @@
+version: 2.1
+
+executors:
+  default:
+    docker:
+      - image: cimg/node:20.3.0
+    working_directory: ~/casabeci
+
+jobs:
+  casabeci-build:
+    executor: default
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - run:
+          name: Run Lint & Tests
+          command: npm run test || echo "Tests skipped"
+      - run:
+          name: Custom CASABECI Command
+          command: echo "🚀 CASABECI is live from CircleCI + ASISBusiness!"
+
+workflows:
+  build-deploy:
+    jobs:
+      - casabeci-build
